@@ -1,0 +1,52 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App user profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "FruitCollection": {
+      "title": "Fruit Collection",
+      "description": "User's identified fruit collection",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "fruitName": { "type": "string" },
+        "scientificName": { "type": "string" },
+        "family": { "type": "string" },
+        "origin": { "type": "string" },
+        "nutrition": {
+          "type": "object",
+          "properties": {
+            "calories": { "type": "string" },
+            "vitamins": { "type": "array", "items": { "type": "string" } },
+            "minerals": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "funFact": { "type": "string" },
+        "season": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fruitName", "imageUrl", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/users/{userId}/collection/{itemId}": {
+      "schema": "FruitCollection",
+      "description": "Individual fruit entries in user's collection"
+    }
+  }
+}

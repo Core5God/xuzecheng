@@ -1,0 +1,62 @@
+import React from 'react';
+import { motion } from 'motion/react';
+import { FruitImage } from './FruitImage';
+
+interface FruitCardProps {
+  fruit: any;
+  onClick: (e: React.MouseEvent) => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  isActive: boolean;
+  isHovered: boolean;
+}
+
+export const FruitCard: React.FC<FruitCardProps> = ({ 
+  fruit, 
+  onClick, 
+  onMouseEnter, 
+  onMouseLeave, 
+  isActive, 
+  isHovered 
+}) => {
+  return (
+    <motion.div 
+      whileHover={{ scale: 1.05, zIndex: 10 }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      className={`relative inline-flex flex-col w-96 rounded-[32px] shadow-nm-flat ${fruit.color} backdrop-blur-xl bg-white/40 border border-white/40 overflow-hidden group/card cursor-pointer transition-all duration-300 fruit-card ${(isActive || isHovered) ? 'ring-4 ring-nm-accent ring-offset-4 ring-offset-nm-bg active-card' : ''}`}
+    >
+      <div className="relative h-56 overflow-hidden bg-nm-ink/5">
+        <FruitImage 
+          name={fruit.name} 
+          fallbackImage={fruit.image} 
+          className="w-full h-full"
+        />
+      </div>
+      
+      <div className="p-6 pl-9">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-3xl">{fruit.icon}</span>
+            <span className="text-2xl font-display font-extrabold text-nm-ink">{fruit.name}</span>
+          </div>
+          <span className="px-2 py-1 rounded-lg bg-nm-accent/10 text-nm-accent text-[9px] font-bold uppercase tracking-wider">
+            {fruit.family}
+          </span>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-nm-ink/5">
+          <div className="flex flex-col">
+            <span className="text-[9px] font-bold text-nm-muted uppercase tracking-widest leading-none mb-1">热量</span>
+            <span className="text-xs font-bold text-nm-ink">{fruit.kcal} kcal</span>
+          </div>
+          <div className="flex flex-col text-right">
+            <span className="text-[9px] font-bold text-nm-muted uppercase tracking-widest leading-none mb-1">最佳赏味</span>
+            <span className="text-xs font-bold text-nm-ink">{fruit.season}</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
