@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Card, Button } from './Neumorphic.tsx';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 
 interface Props {
@@ -11,6 +10,7 @@ interface State {
   error: Error | null;
 }
 
+// 修复：移除对已删除的 Neumorphic.tsx 的引用，用原生元素替代
 class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -32,7 +32,6 @@ class ErrorBoundary extends React.Component<Props, State> {
     if (this.state.hasError) {
       let errorMessage = '应用程序遇到了一个意外错误。';
       try {
-        // Check if it's a Firestore JSON error
         const parsed = JSON.parse(this.state.error?.message || '');
         if (parsed.error && parsed.error.includes('Missing or insufficient permissions')) {
           errorMessage = '权限不足：您可能需要重新登录或检查权限设置。';
@@ -43,7 +42,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
       return (
         <div className="min-h-screen bg-nm-bg flex items-center justify-center p-6">
-          <Card className="max-w-md w-full text-center p-12">
+          <div className="max-w-md w-full text-center p-12 rounded-2xl shadow-lg bg-white/80">
             <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertCircle size={40} className="text-red-500" />
             </div>
@@ -51,14 +50,13 @@ class ErrorBoundary extends React.Component<Props, State> {
             <p className="text-nm-muted mb-8 leading-relaxed">
               {errorMessage}
             </p>
-            <Button 
-              variant="primary" 
-              className="w-full"
+            <button 
+              className="w-full px-6 py-3 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
               onClick={() => window.location.reload()}
             >
               刷新页面 <RefreshCw size={18} />
-            </Button>
-          </Card>
+            </button>
+          </div>
         </div>
       );
     }
